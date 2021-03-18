@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 container">
+        <h2 class="text-center">List Product</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>ProductName</th>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int stt = 0;
+                    foreach (var item in Model)
+                    {
+                        stt++;
+                        <tr>
+                            <td>@stt</td>
+                            <td>@item.ProductName</td>
+                            <td><img src="~/images/@item.UrlImage" width="80" height="80" /></td>
+                            <td>@item.Price</td>
+                            <td>@item.Description</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Category.CategoryName</td>
+                            <td><a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.ProductID" class="badge bg-warning">Edit</a></td>
+                            <td><a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.ProductID" class="badge bg-danger">Delete</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
