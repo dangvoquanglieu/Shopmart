@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Shopmart.Data;
 using Shopmart.Models;
 using System;
@@ -16,6 +18,7 @@ namespace Shopmart.Controllers
     {
 
         private ApplicationDbContext db;
+        private Cart cart;
         public HomeController(ApplicationDbContext db)
         {
             this.db = db;
@@ -23,16 +26,7 @@ namespace Shopmart.Controllers
 
         public IActionResult Index()
         {
-            var listProduct = db.Products.Select(s => new Product
-            {
-                ProductID = s.ProductID,
-                ProductName = s.ProductName,
-                UrlImage = s.UrlImage,
-                Price = s.Price,
-                Description = s.Description,
-                Quantity = s.Quantity,
-                Category = db.Categories.Where(c => c.CategoryID == s.CategoryID).FirstOrDefault()
-            }).ToList();
+            var listProduct = db.Products.Where(s => s.Status.Equals("true"));
             return View(listProduct);
         }
 
@@ -42,8 +36,24 @@ namespace Shopmart.Controllers
         }
 
         [Authorize(Roles = "User")]
-        public IActionResult Shopping()
+        public IActionResult Shopping(string id)
         {
+            var key = HttpContext.Session.GetString("CART");
+            var product = db.Products.Find(id);
+            var orderDetail = new OrderDetail
+            {
+                Product = product,
+            };
+            if(key == null)
+            {
+                cart = new Cart();
+            }
+            else
+            {
+                cart = JsonConvert.DeserializeObject<Cart>(key);
+            }
+            cart.add(orderDetail);
+            HttpContext.Session.SetString("CART", JsonConvert.SerializeObject(cart));
             return View();
         }
 

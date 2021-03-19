@@ -23,20 +23,11 @@ namespace Shopmart.Controllers
             this.environment = environment;
         }
 
-
         public IActionResult Index()
         {
-            var listProduct = db.Products.Select(s => new Product
-            {
-                ProductID = s.ProductID,
-                ProductName = s.ProductName,
-                UrlImage = s.UrlImage,
-                Price = s.Price,
-                Description = s.Description,
-                Quantity = s.Quantity,
-                Category = db.Categories.Where(c => c.CategoryID == s.CategoryID).FirstOrDefault()
-            }).ToList();
+            var listProduct = db.Products.ToList();
             return View(listProduct);
+            
         }
 
         public IActionResult Create()
@@ -47,7 +38,6 @@ namespace Shopmart.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
@@ -81,7 +71,8 @@ namespace Shopmart.Controllers
                     Price = product.Price,
                     Description = product.Description,
                     Quantity = product.Quantity,
-                    CategoryID = product.CategoryID
+                    CategoryID = product.CategoryID,
+                    Status = "true"
                 };
                 db.Products.Add(data);
                 await db.SaveChangesAsync();
@@ -107,7 +98,6 @@ namespace Shopmart.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(string id, Product product)
         {
             if (ModelState.IsValid)
@@ -142,7 +132,6 @@ namespace Shopmart.Controllers
                 data.CategoryID = product.CategoryID;
                 db.Products.Update(data);
                 await db.SaveChangesAsync();
-                //  return RedirectToAction(nameof(Edit), new { id = data.idProduct });
                 return RedirectToAction(nameof(Index));
             }
             CategoryDropDownList();

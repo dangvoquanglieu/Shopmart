@@ -34,7 +34,7 @@
                             <td>@item.Price</td>
                             <td>@item.Description</td>
                             <td>@item.Quantity</td>
-                            <td>@item.Category.CategoryName</td>
+                            <td>@item.CategoryID</td>
                             <td><a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.ProductID" class="badge bg-warning">Edit</a></td>
                             <td><a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.ProductID" class="badge bg-danger">Delete</a></td>
                         </tr>
