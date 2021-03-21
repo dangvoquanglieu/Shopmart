@@ -1,36 +1,26 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ConfigUser> SignInManager
 @inject UserManager<ConfigUser> UserManager
+
+
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-
-        <li class="nav-item">
-            <div class="dropdown">
-                <a class="nav-link text-dark dropdown-toggle" data-toggle="dropdown" data-target="#cart"
-                   asp-controller="Home" asp-action="Shopping" title="Cart">
-                    <span class="material-icons">
-                        shopping_cart
-                    </span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="cart">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
+       
+            <li class="nav-item">
+                <div>
+                    <a class="nav-link text-dark"
+                       asp-controller="Home" asp-action="ShoppingView" title="Cart">
+                        <span class="material-icons">
+                            shopping_cart
+                        </span>
+                    </a>
                 </div>
-            </div>
-        </li>
+            </li>
+        
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
         </li>

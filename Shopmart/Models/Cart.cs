@@ -15,6 +15,12 @@ namespace Shopmart.Models
 
         }
 
+        public Cart(string customerName, Dictionary<string, OrderDetail> cartProduct)
+        {
+            CustomerName = customerName;
+            CartProduct = cartProduct;
+        }
+
         public void add(OrderDetail orderDetail)
         {
             if (CartProduct == null)
@@ -23,14 +29,16 @@ namespace Shopmart.Models
             }
             string key = orderDetail.Product.ProductID;
             if (this.CartProduct.ContainsKey(key))
-            {               
+            {
+                
                 int quantity = this.CartProduct.GetValueOrDefault(key).Quantity;
-                orderDetail.Quantity = quantity;
+                this.CartProduct.GetValueOrDefault(key).Quantity = quantity + 1;
             }
             else 
             { 
             this.CartProduct.Add(key, orderDetail);
             }
+
         }
     }
 }

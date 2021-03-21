@@ -1,8 +1,35 @@
-﻿
+﻿@model Cart
 @{
     ViewData["Title"] = "Shopping";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Shopping</h1>
+<table class="table">
+    <h3 class="text-center">Shopping Cart</h3>
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @if (Model.CartProduct.Count > 0)
+        {
 
+        
+        @foreach (KeyValuePair<string, OrderDetail> item in Model.CartProduct)
+        {
+            <tr>
+                <td>@item.Value.Product.ProductName</td>
+                <td>@item.Value.Product.Price</td>
+                <td>@item.Value.Quantity</td>
+                <td></td>
+            </tr>
+        }
+        }
+
+    </tbody>
+</table>

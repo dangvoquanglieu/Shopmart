@@ -10,7 +10,6 @@
     <div class="col-md-8 container">
         <h2 class="text-center">CREATE PRODUCT</h2>
         <form asp-controller="Admin" asp-action="Create" method="post" enctype="multipart/form-data">
-            @Html.AntiForgeryToken()
             <div class="form-group">
                 <label>ProductID</label>
                 <input asp-for="ProductID" class="form-control" />
