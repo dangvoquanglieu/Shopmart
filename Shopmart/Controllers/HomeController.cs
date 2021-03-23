@@ -39,8 +39,8 @@ namespace Shopmart.Controllers
         [Authorize(Roles = "User")]
         public IActionResult Shopping(string id)
         {
-            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
-            var userID = user.Id;
+            //var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            //var userID = user.Id;
             var key = HttpContext.Session.GetString("CART");
             var product = db.Products.Find(id);
             var orderDetail = new OrderDetail
@@ -62,25 +62,24 @@ namespace Shopmart.Controllers
         }
 
         [Authorize(Roles = "User")]
-        public IActionResult ShoppingView()
+        public IActionResult ShoppingUpdate()
         {
-            var user = User.Identity.Name; //username
-            //khúc này em lấy user management để lấy ra user đó => Id
-            //UserManager
-            //var userId = '';
-
             var key = HttpContext.Session.GetString("CART");
-            if (key == null)
-            {
-                cart = new Cart();
-            }
-            else
-            {
-                cart = JsonConvert.DeserializeObject<Cart>(key);
-            }
-            
+            cart = JsonConvert.DeserializeObject<Cart>(key);
+            string productID = Request.Form["txtProductID"].ToString();
+            int quantity = int.Parse(Request.Form["txtQuantity"].ToString());
+            cart.update(productID, quantity);
+            HttpContext.Session.SetString("CART", JsonConvert.SerializeObject(cart));
+            return View(cart);            
+        }
+
+        public IActionResult ShoppingDelete(string id)
+        {
+            var key = HttpContext.Session.GetString("CART");
+            cart = JsonConvert.DeserializeObject<Cart>(key);
+            cart.delete(id);
+            HttpContext.Session.SetString("CART", JsonConvert.SerializeObject(cart));
             return View(cart);
-            
         }
 
 

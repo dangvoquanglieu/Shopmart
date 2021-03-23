@@ -27,7 +27,7 @@ namespace Shopmart.Controllers
         {
             var listProduct = db.Products.ToList();
             return View(listProduct);
-            
+
         }
 
         public IActionResult Create()
@@ -145,7 +145,5 @@ namespace Shopmart.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }

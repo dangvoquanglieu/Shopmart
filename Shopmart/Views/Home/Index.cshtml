@@ -6,20 +6,20 @@
 
 <div class="container">
     <div class="row">
-                @{
-                    foreach (var item in Model)
-                    {
-                        <div class="card col-3" style="width: 18rem; margin-left:20px">
-                            <img style="with:50px; height:170px" class="card-img-top" src="~/images/@item.UrlImage" alt="Card image cap">
-                            <div class="card-body">
-                                <h5 class="card-title">@item.ProductName</h5>
-                                <p class="card-text">@item.Description</p>
-                                <p class="card-text">@item.Price</p>
-                                <a asp-controller="Home" asp-action="Shopping" asp-route-id="@item.ProductID" class="btn btn-outline-success">Add to cart</a>
-                            </div>
-                        </div>
-                    }
-                }            
+        @{
+            foreach (var item in Model)
+            {
+                <div class="card col-3" style="width: 18rem; margin-left:20px">
+                    <img style="with:50px; height:170px" class="card-img-top" src="~/images/@item.UrlImage" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.ProductName</h5>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text">@item.Price</p>
+                        <a asp-controller="Home" asp-action="Shopping" asp-route-id="@item.ProductID" class="btn btn-outline-success">Add to cart</a>
+                    </div>
+                </div>
+            }
+        }
     </div>
 </div>
 
