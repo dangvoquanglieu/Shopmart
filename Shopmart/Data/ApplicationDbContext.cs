@@ -49,6 +49,5 @@ namespace Shopmart.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ConfigUser> ConfigUsers { get; set; }
-
     }
 }

@@ -17,10 +17,8 @@
     </thead>
     <tbody>
 
-        @if (Model.CartProduct.Count > 0)
+        @if (Model != null)
         {
-
-
             @foreach (KeyValuePair<string, OrderDetail> item in Model.CartProduct)
             {
                 <tr>
@@ -47,6 +45,7 @@
                     </form>
                 </tr>
             }
+            <a asp-controller="Home" asp-action="Checkout" class="btn btn-outline-success">Checkout</a>
         }
 
     </tbody>
