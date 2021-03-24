@@ -12,5 +12,6 @@ namespace Shopmart.Models
         public string FirstName { get; set; }
         [PersonalData]
         public string LastName { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }  
     }
 }
