@@ -74,12 +74,18 @@ namespace Shopmart.Controllers
                     CategoryID = product.CategoryID,
                     Status = "true"
                 };
+                CategoryDropDownList();
+                if (db.Products.Find(data.ProductID) != null)
+                {
+                    ViewData["Message"] = "Duplicate Id";
+                    return View();
+                }
                 db.Products.Add(data);
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 
             }
-            CategoryDropDownList();
+            
             return View();
         }
 

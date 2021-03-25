@@ -25,13 +25,13 @@
                     <form asp-controller="Home" asp-action="ShoppingUpdate">
 
                         <input type="hidden" name="txtProductID" value="@item.Value.Product.ProductID" />
-                        <td>@item.Value.Product.ProductName</td>
+                        <td>@item.Value.Product.ProductName <span class="text-danger">@item.Value.Error</span></td>
                         <td>@item.Value.Product.Price</td>
                         <td>
                             <input name="txtQuantity" type="number" value="@item.Value.Quantity" min="1" />
                         </td>
                         <td>
-                            <input type="submit" />
+                            <input type="submit" class="btn btn-outline-success"/>
                         </td>
 
                         <td>
@@ -44,6 +44,7 @@
                         </td>
                     </form>
                 </tr>
+                
             }
             <a asp-controller="Home" asp-action="Checkout" class="btn btn-outline-success">Checkout</a>
         }

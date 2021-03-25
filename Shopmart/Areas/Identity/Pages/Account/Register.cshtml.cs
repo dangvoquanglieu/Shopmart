@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shopmart.Data;
 using Shopmart.Models;
 
 namespace Shopmart.Areas.Identity.Pages.Account
@@ -25,7 +25,6 @@ namespace Shopmart.Areas.Identity.Pages.Account
         private readonly UserManager<ConfigUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        
         public RegisterModel(
             UserManager<ConfigUser> userManager,
             SignInManager<ConfigUser> signInManager,
@@ -99,7 +98,9 @@ namespace Shopmart.Areas.Identity.Pages.Account
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
-                {
+                {                 
+                        await _userManager.AddToRoleAsync(user, "User");
+                    
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -110,8 +111,8 @@ namespace Shopmart.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Verify email address",
+                        $"<a href='{callbackUrl}'>Click here to confirm your account</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

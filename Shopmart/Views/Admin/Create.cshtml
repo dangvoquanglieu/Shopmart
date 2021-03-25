@@ -12,12 +12,13 @@
         <form asp-controller="Admin" asp-action="Create" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label>ProductID</label>
-                <input asp-for="ProductID" class="form-control" />
+                <input required asp-for="ProductID" class="form-control" />
                 <span asp-validation-for="ProductID" class="text-danger"></span>
+                <span asp-validation-for="ProductID" class="text-danger">@ViewData["Message"]</span>
             </div>
             <div class="form-group">
                 <label>ProductName</label>
-                <input asp-for="ProductName" class="form-control" />
+                <input required asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -27,22 +28,22 @@
             </div>
             <div class="form-group">
                 <label>Price</label>
-                <input asp-for="Price" class="form-control" />
+                <input type="number" required asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <input asp-for="Description" class="form-control" />
+                <input required asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Quantity</label>
-                <input asp-for="Quantity" class="form-control" />
+                <input type="number" required asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Category</label>
-                <select asp-for="CategoryID" asp-items="@ViewBag.Categories" class="form-control">
+                <select required asp-for="CategoryID" asp-items="@ViewBag.Categories" class="form-control">
                     <option value="">Select Category</option>
                 </select>
                 <span asp-validation-for="CategoryID" class="text-danger"></span>

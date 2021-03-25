@@ -15,5 +15,6 @@ namespace Shopmart.Models
         public float TotalPrice { get; set; }
         public DateTime CreatedDate { get; set; }
         public Order Order { get; set; }
+        public string Error { get; set; }
     }
 }

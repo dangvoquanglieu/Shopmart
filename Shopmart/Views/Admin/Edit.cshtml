@@ -5,50 +5,45 @@
 }
 
 <div class="row">
-    <div class="col-md-8">
-        <h2>EDIT PRODUCT</h2>
+    <div class="col-md-8 container">
+        <h2 class="text-center">EDIT PRODUCT</h2>
         <form asp-controller="Admin" asp-action="Edit" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label>ProductName</label>
-                <input asp-for="ProductName" class="form-control" />
+                <input required asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>UrlImage</label>
                 <img src="~/images/@Model.UrlImage" width="80" height="80" />
-                <input type="file" asp-for="UrlImage" class="form-control" />
+                <input type="file" asp-for="UrlImage" class="form-control" value="@Model.UrlImage"/>
                 <span asp-validation-for="UrlImage" class="text-danger"></span>
 
             </div>
             <div class="form-group">
                 <label>Price</label>
-                <input asp-for="Price" class="form-control" />
+                <input required type="number" min="0" asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <input asp-for="Description" class="form-control" />
+                <input required asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Quantity</label>
-                <input asp-for="Quantity" class="form-control" />
+                <input required type="number" min="0" asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Category</label>
-                <select asp-for="CategoryID" asp-items="@ViewBag.Categories" class="form-control">
+                <select required asp-for="CategoryID" asp-items="@ViewBag.Categories" class="form-control">
                     <option value="">Select Category</option>
                 </select>
                 <span asp-validation-for="CategoryID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" name="submit" value="Add Product" class="btn btn-primary" />
+                <input type="submit" name="submit" value="Edit Product" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-
-
-

@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Shopmart.Data;
 using Shopmart.Models;
@@ -10,25 +9,30 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shopmart.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-
+        private readonly IEmailSender emailSender;
         private ApplicationDbContext db;
         private Cart cart;
-        public HomeController(ApplicationDbContext db)
+        public HomeController(ApplicationDbContext db, IEmailSender emailSender)
         {
             this.db = db;
+            this.emailSender = emailSender;
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
-            var listProduct = db.Products.Where(s => s.Status.Equals("true"));
+            ViewData["NameSearch"] = searchString;
+            var listProduct = db.Products.Where(s => s.Status.Equals("true") && s.Quantity > 0);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                listProduct = listProduct.Where(s => s.ProductName.Contains(searchString));
+            }
             return View(listProduct);
         }
 
@@ -82,6 +86,7 @@ namespace Shopmart.Controllers
             return RedirectToAction(nameof(ShoppingView));
         }
 
+        [Authorize(Roles = "User")]
         public IActionResult ShoppingView()
         {
             var key = HttpContext.Session.GetString("CART");
@@ -97,11 +102,16 @@ namespace Shopmart.Controllers
             int count = 0;
             bool result = true;
             var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+
             float totalPrice = 0;
             var key = HttpContext.Session.GetString("CART");
             if (key != null)
             {
                 cart = JsonConvert.DeserializeObject<Cart>(key);
+                if(cart.CartProduct.Count == 0)
+                {
+                    return RedirectToAction(nameof(ShoppingView));
+                }
             }
             Order order = new Order
             {
@@ -110,7 +120,7 @@ namespace Shopmart.Controllers
                 CreateDate = DateTime.Now,
                 TotalPrice = totalPrice,
             };
-            db.Orders.Add(order);
+
             foreach (KeyValuePair<string, OrderDetail> item in cart.CartProduct)
             {
                 count++;
@@ -119,6 +129,7 @@ namespace Shopmart.Controllers
                 int quan = item.Value.Quantity;
                 if (pro.Quantity - item.Value.Quantity < 0)
                 {
+                    item.Value.Error = "[Out of stock]";
                     result = false;
                 }
                 pro.Quantity = pro.Quantity - item.Value.Quantity;
@@ -134,9 +145,19 @@ namespace Shopmart.Controllers
                 };
                 db.OrderDetails.Add(orderDetail);
             }
+            order.TotalPrice = totalPrice;
             if (result)
             {
+                db.Orders.Add(order);
                 db.SaveChanges();
+                this.emailSender.SendEmailAsync(user.Email, $"{order.OrderID}",
+                        "Thank you for used our service\n" +
+                        $"Total: {totalPrice}");
+            }
+            else
+            {
+                HttpContext.Session.SetString("CART", JsonConvert.SerializeObject(cart));
+                return RedirectToAction(nameof(ShoppingView));
             }
 
             return View();

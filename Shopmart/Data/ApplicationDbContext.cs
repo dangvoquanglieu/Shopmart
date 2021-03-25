@@ -21,7 +21,6 @@ namespace Shopmart.Data
             modelBuilder.Entity<Category>().HasKey(s => s.CategoryID);
             modelBuilder.Entity<Order>().HasKey(o => o.OrderID);
             modelBuilder.Entity<OrderDetail>().HasKey(od => od.OrderDetailID);
-           
 
             //Tạo quan hệ cho Product và Category
             modelBuilder.Entity<Product>()
