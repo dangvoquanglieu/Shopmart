@@ -4,23 +4,21 @@
 }
 
 @model IEnumerable<Product>
-
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Find by name: <input required type="text" name="SearchString" value="@ViewData["NameSearch"]" />
-            <input type="submit" value="Search" class="btn btn-outline-success" /> |
-            <a asp-action="Index">Back to Full List</a>
-        </p>
+    <div class="mb-3" style="margin-left: 70px">
+        <form class="form-inline" asp-action="Index" method="get">
+            <div class="form-actions no-color">               
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required name="SearchString" value="@ViewData["NameSearch"]" />
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <a asp-action="Index">Back to Full List</a>
+            </div>
+        </form>
     </div>
-</form>
-<div>
     <div class="row">
         @{
             foreach (var item in Model)
             {
-                <div class="card col-3" style="width: 18rem; margin-left:20px; margin-bottom:20px">
-                    <img style="with:50px; height:170px" class="card-img-top" src="~/images/@item.UrlImage" alt="Card image cap">
+                <div class="card col-3" style="width: 18rem; margin-left:80px; margin-bottom:40px">
+                    <img style="with:40px; height:240px" class="card-img-top" src="~/images/@item.UrlImage" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">@item.ProductName</h5>
                         <p class="card-text">@item.Description</p>
@@ -31,6 +29,6 @@
             }
         }
     </div>
-</div>
+    </div>
 
 

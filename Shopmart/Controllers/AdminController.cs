@@ -40,7 +40,7 @@ namespace Shopmart.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // check incoming variable
             {
                 string UrlImage = "";
                 var files = HttpContext.Request.Form.Files;
@@ -135,6 +135,7 @@ namespace Shopmart.Controllers
                 data.Price = product.Price;
                 data.Description = product.Description;
                 data.Quantity = product.Quantity;
+                data.Status = product.Status;
                 data.CategoryID = product.CategoryID;
                 db.Products.Update(data);
                 await db.SaveChangesAsync();
@@ -147,7 +148,8 @@ namespace Shopmart.Controllers
         public async Task<ActionResult> Delete(string id)
         {
             var data = db.Products.Find(id);
-            db.Products.Remove(data);
+            data.Status = "false";
+            db.Products.Update(data);
             await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

@@ -8,9 +8,9 @@ namespace Shopmart.Models
 {
     public class ConfigUser : IdentityUser
     {
-        [PersonalData]
+        
         public string FirstName { get; set; }
-        [PersonalData]
+        
         public string LastName { get; set; }
         public virtual ICollection<Order> Orders { get; set; }  
     }

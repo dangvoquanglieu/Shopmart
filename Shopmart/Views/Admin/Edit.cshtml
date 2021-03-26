@@ -16,7 +16,7 @@
             <div class="form-group">
                 <label>UrlImage</label>
                 <img src="~/images/@Model.UrlImage" width="80" height="80" />
-                <input type="file" asp-for="UrlImage" class="form-control" value="@Model.UrlImage"/>
+                <input type="file" asp-for="UrlImage" class="form-control" value="@Model.UrlImage" />
                 <span asp-validation-for="UrlImage" class="text-danger"></span>
 
             </div>
@@ -34,6 +34,11 @@
                 <label>Quantity</label>
                 <input required type="number" min="0" asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <input required type="text" asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label>Category</label>

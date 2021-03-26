@@ -16,6 +16,7 @@
                     <th>Price</th>
                     <th>Description</th>
                     <th>Quantity</th>
+                    <th>Status</th>
                     <th>Category</th>
                     <th>Edit</th>
                     <th>Delete</th>
@@ -34,6 +35,7 @@
                             <td>@item.Price</td>
                             <td>@item.Description</td>
                             <td>@item.Quantity</td>
+                            <td>@item.Status</td>
                             <td>@item.CategoryID</td>
                             <td><a asp-controller="Admin" asp-action="Edit" asp-route-id="@item.ProductID" class="btn btn-info">Edit</a></td>
                             <td><a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.ProductID" class="btn btn-danger">Delete</a></td>
